@@ -12,5 +12,42 @@ button {
 }
 
 div {
+    margin-bottom: /*20px */ 2px;
+}
+
+.originalHexagram {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     margin-bottom: 20px;
+}
+
+.line-svg:hover {
+    /* Example hover effect */
+    background-color: #f0f0f0;
+}
+
+.changing object {
+    /* Change SVG color; this requires SVGs to be styled with CSS variables or inline styles */
+    filter: hue-rotate(90deg); /* Example to change color, might need adjustment */
+}
+
+.hex-line-svg {
+    width: 100px; 
+    height: 20px; 
+    display: block; 
+}
+
+.tooltip {
+    position: absolute;
+    bottom: 100%; /* Show above the line */
+    left: 0;
+    background-color: #f9f9f9;
+    border: 1px solid #d1d1d1;
+    padding: 5px;
+    visibility: hidden; /* Initially hidden */
+}
+
+.line-svg:hover .tooltip {
+    visibility: visible; /* Show on hover */
 }
