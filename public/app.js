@@ -12,8 +12,8 @@ document.getElementById('generateHexagram').addEventListener('click', async () =
         ${data.originalHexagramInfo.name.english} -
         ${data.originalHexagramInfo.hexagram}
         </h2>
-        <p>${data.originalHexagramInfo.judgement}</p>
-        <p>${data.originalHexagramInfo.images}</p>
+        <p>${data.originalHexagramInfo.judgement.replace(/\n/g, '<br>')}</p>
+        <p>${data.originalHexagramInfo.images.replace(/\n/g, '<br>')}</p>
     `;
 
     const transformedLinesDiv = document.getElementById('transformedLines');
@@ -25,8 +25,8 @@ document.getElementById('generateHexagram').addEventListener('click', async () =
         ${data.transformedHexagramInfo.name.english} -
         ${data.transformedHexagramInfo.hexagram}
         </h2>
-        <p>${data.transformedHexagramInfo.judgement}</p>
-        <p>${data.transformedHexagramInfo.images}</p>
+        <p>${data.transformedHexagramInfo.judgement.replace(/\n/g, '<br>')}</p>
+        <p>${data.transformedHexagramInfo.images.replace(/\n/g, '<br>')}</p>
     `;
 
 

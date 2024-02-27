@@ -9,10 +9,29 @@ body {
 button {
     padding: 10px 20px;
     cursor: pointer;
+    font-size: 15px;
+    font-family: inherit;
+    border: none;
+    background-color: #f0f0f0;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    /* position the button at the bottom of the page */
+    position: fixed;
+    bottom: 20px;
+    right: 50%;
+    transform: translateX(50%);
+    
+    
 }
 
 div {
     margin-bottom: /*20px */ 2px;
+}
+
+#hexagramsContainer {
+    display: flex;
+    justify-content: space-around;
+    align-items: start;
 }
 
 .originalHexagram {
@@ -28,8 +47,8 @@ div {
 }
 
 .changing object {
-    /* Change SVG color; this requires SVGs to be styled with CSS variables or inline styles */
-    filter: hue-rotate(90deg); /* Example to change color, might need adjustment */
+    /* This horrid combination changes the changing line's color to red */
+    filter: invert(35%) sepia(100%) saturate(7500%) hue-rotate(-10deg) brightness(100%) contrast(100%); 
 }
 
 .hex-line-svg {
