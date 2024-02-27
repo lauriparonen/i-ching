@@ -20,7 +20,7 @@ button {
     bottom: 20px;
     right: 50%;
     transform: translateX(50%);
-
+    z-index: 10;
     
 }
 
@@ -103,18 +103,20 @@ h1 {
 }
 
 .tooltip {
-    position: relative;
-    z-index: 10;
-    bottom: 100%;
-    left: 50%;
-    transform: translateX(-50%);
+    position: absolute;
+    top: -10px; /* Adjust as needed to position the tooltip above or next to the line */
+    left: 100%; /* Adjust if you want the tooltip to appear to the right of the line */
+    transform: translateX(10px); /* Gives some space between the line and the tooltip */
+    white-space: nowrap; /* Keeps the tooltip text on a single line; adjust as needed */
+    visibility: hidden;
     background-color: #fff;
     border: 1px solid #ddd;
     padding: 5px;
     border-radius: 4px;
-    visibility: hidden; /* Start hidden, shown on hover */
-    z-index: 10; /* Ensure it's above other content */
-    white-space: pre-wrap; /* Respect the formatting of the text, including new lines */
+    z-index: 100; /* Ensures the tooltip is above other content */
+    
+    transition: visibility 0s, opacity 0.5s linear;
+
 }
 
 

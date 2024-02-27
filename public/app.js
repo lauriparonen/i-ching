@@ -54,6 +54,9 @@ function renderHexagramLines(lines, container, hexagramInfo) {
     reversedLines.forEach((line, index) => {
 
         const originalIndex = lines.length - index - 1;
+        // Find the corresponding line meaning using index
+        const lineMeaning = hexagramInfo.lines[originalIndex].meaning;
+        console.log(lineMeaning)
 
         const svgContainer = document.createElement('div');
         svgContainer.classList.add('line-svg');
@@ -67,23 +70,21 @@ function renderHexagramLines(lines, container, hexagramInfo) {
             svgContainer.classList.add('changing');
         }
 
-        // Find the corresponding line meaning using index
-        const lineMeaning = hexagramInfo.lines[originalIndex].meaning;
-        console.log(lineMeaning)
-
         // Tooltip setup
         const tooltip = document.createElement('div');
         tooltip.classList.add('tooltip');
-        tooltip.textContent = lineMeaning; // Set the tooltip text to the line's meaning
-        tooltip.style.visibility = 'hidden'; // Initially hide tooltip
+        tooltip.innerHTML = lineMeaning.replace(/\n/g, '<br>');
+        
         svgContainer.appendChild(tooltip); // Append the tooltip but keep it hidden initially
 
-        svgContainer.addEventListener('mouseenter', () => {
-            tooltip.style.visibility = 'visible'; // Show tooltip on hover
+        svgContainer.addEventListener('mouseenter', (event) => {
+            tooltip.style.visibility = 'visible';
+            tooltip.style.top = event.pageY + 'px'; // Position tooltip at the mouse position
+            tooltip.style.left = event.pageX + 'px';
         });
 
         svgContainer.addEventListener('mouseleave', () => {
-            tooltip.style.visibility = 'hidden'; // Hide tooltip when mouse leaves
+            tooltip.style.visibility = 'hidden';
         });
     });
 }
