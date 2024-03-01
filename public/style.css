@@ -4,24 +4,38 @@ body {
     padding: 20px;
     max-width: 800px;
     margin: auto;
+    background-color: #131313;
+    overflow-x: hidden;
 }
 
-button {
+#headerContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+#generateHexagram {
     padding: 10px 20px;
     cursor: pointer;
     font-size: 15px;
     font-family: inherit;
     border: none;
     background-color: #f0f0f0;
-    margin-bottom: 20px;
     border-radius: 5px;
-    /* position the button at the bottom of the page */
-    position: fixed;
-    bottom: 20px;
-    right: 50%;
-    transform: translateX(50%);
-    z-index: 10;
     
+
+    z-index: 10;
+    position: relative;
+    /* Position the button at the top center beneath the h1 */
+    display: block;
+    margin: 0 auto;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+button:hover {
+    background-color: darken(#090911, 10%); /* Slightly darker on hover */
 }
 
 div {
@@ -33,6 +47,7 @@ h1 {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
+    color: #c0c0c0;
 }
 
 #hexagramsContainer {
@@ -49,8 +64,17 @@ h1 {
     flex-direction: column;
     justify-content: start;
     align-items: center;
-    padding: 10px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1); /* Optional: adds some shadow for depth */
+
+    background-color: #c0c0c0;
+    color: #333333;
+
+    min-height: 132px;
+    width: 100%;
+
+    padding: 20px;
+    margin: 20px 0;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1); /* Optional: adds some shadow for depth */
     
     transition: opacity 0.5s ease-in-out;
     opacity: 0;
@@ -61,30 +85,31 @@ h1 {
         flex-basis: 100%; /* Full width on smaller screens */
     }
 }
-/*
-.originalHexagram {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
+
+.line-placeholder {
+    height: 20px;
+    width: 100px;
+    background-color: transparent;
+    margin: 10px 0;
 }
 
-.transformedHexagram {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
+h2 {
+    color: #333333; /* Accent color for headings */
 }
-*/
 
 #originalText, #transformedText {
     width: 80%;
 
 }
 
+.line-svg {
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+}
+
 .line-svg:hover {
     /* Example hover effect */
-    background-color: #f0f0f0;
+    background-color: #c7c7c7;
 }
 
 .changing object {
@@ -104,19 +129,30 @@ h1 {
 
 .tooltip {
     position: absolute;
+    visibility: hidden;
+    opacity: 0; /* Start with the tooltip fully transparent */
+    transition: opacity 0.3s ease-in-out, visibility 0s linear 0.3s; /* Smooth transition for opacity */
+
     top: -10px; /* Adjust as needed to position the tooltip above or next to the line */
     left: 100%; /* Adjust if you want the tooltip to appear to the right of the line */
     transform: translateX(10px); /* Gives some space between the line and the tooltip */
     white-space: nowrap; /* Keeps the tooltip text on a single line; adjust as needed */
-    visibility: hidden;
+    
     background-color: #fff;
     border: 1px solid #ddd;
     padding: 5px;
     border-radius: 4px;
     z-index: 100; /* Ensures the tooltip is above other content */
     
-    transition: visibility 0s, opacity 0.5s linear;
 
+    
+
+}
+
+.tooltip.visible {
+    visibility: visible; /* Show on hover */
+    opacity: 1;
+    transition-delay: 0s;
 }
 
 

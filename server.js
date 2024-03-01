@@ -37,7 +37,6 @@ app.get('/generate-hexagram', async (req, res) => {
     try {
         const response = await fetch(url);
         const data = await response.text();
-        //const coinTosses = data.trim().split('\n').map(num => parseInt(num, 10));
         const coinTosses = data ? data.trim().split('\n').map(num => parseInt(num, 10)) : generateRandomBitsFallback();
 
         // Grouping the coin tosses into sets of three

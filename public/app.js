@@ -1,16 +1,28 @@
 document.getElementById('generateHexagram').addEventListener('click', async () => {
-    document.getElementById('originalHexagram').style.opacity = 0;
-    document.getElementById('transformedHexagram').style.opacity = 0;
+    const originalHexagram = document.getElementById('originalHexagram');
+    const transformedHexagram = document.getElementById('transformedHexagram');
+    
+    originalHexagram.style.opacity = 0;
+    transformedHexagram.style.opacity = 0;
 
+    // Fetch hexagram data from the server
     const response = await fetch('/generate-hexagram');
     const data = await response.json();
 
-    // After fetching hexagram data
+    // Before rendering, reserve space for the lines to prevent layout shift
+    // The size of the hexagram is 100x132px
     const originalLinesDiv = document.getElementById('originalLines');
-    const originalTextDiv = document.getElementById('originalText');
-    
+    originalLinesDiv.style.height = '132px';
+    originalLinesDiv.style.width = '100px';
+
+    const transformedLinesDiv = document.getElementById('transformedLines');
+    transformedLinesDiv.style.height = '132px';
+    transformedLinesDiv.style.width = '100px';
+
     renderHexagramLines(data.originalHexagram, originalLinesDiv, data.originalHexagramInfo);
     
+    // Update text information
+    const originalTextDiv = document.getElementById('originalText');
     originalTextDiv.innerHTML = `
         <h2>Cast hexagram</h2>
         <h3>
@@ -18,16 +30,14 @@ document.getElementById('generateHexagram').addEventListener('click', async () =
             ${data.originalHexagramInfo.name.chinese} - 
             ${data.originalHexagramInfo.name.english}
         </h3>
-        
         <p>${data.originalHexagramInfo.judgement.replace(/\n/g, '<br>')}</p>
         <p>${data.originalHexagramInfo.images.replace(/\n/g, '<br>')}</p>
     `;
 
-    const transformedLinesDiv = document.getElementById('transformedLines');
-    const transformedTextDiv = document.getElementById('transformedText');
-
+    // Repeat for transformed hexagram
     renderHexagramLines(data.transformedHexagram, transformedLinesDiv, data.transformedHexagramInfo);
     
+    const transformedTextDiv = document.getElementById('transformedText');
     transformedTextDiv.innerHTML = `
         <h2>Transformed hexagram</h2>
         <h3>
@@ -39,16 +49,16 @@ document.getElementById('generateHexagram').addEventListener('click', async () =
         <p>${data.transformedHexagramInfo.images.replace(/\n/g, '<br>')}</p>
     `;
 
-    document.getElementById('originalHexagram').style.opacity = '1';
-    document.getElementById('transformedHexagram').style.opacity = '1';
-
-
+    originalHexagram.style.opacity = 1;
+    transformedHexagram.style.opacity = 1;
 });
+
+
 
 function renderHexagramLines(lines, container, hexagramInfo) {
     container.innerHTML = ''; // Clear previous content
 
-    // Ensuring the line info is in the correct 
+    // Ensure the lines are reversed so that the first line is at the bottom
     const reversedLines = [...lines].reverse(); 
     
     reversedLines.forEach((line, index) => {
@@ -73,18 +83,28 @@ function renderHexagramLines(lines, container, hexagramInfo) {
         // Tooltip setup
         const tooltip = document.createElement('div');
         tooltip.classList.add('tooltip');
-        tooltip.innerHTML = lineMeaning.replace(/\n/g, '<br>');
+        tooltip.innerHTML = `Line ${originalIndex + 1}: ${lineMeaning.replace(/\n/g, '<br>')}`;
         
         svgContainer.appendChild(tooltip); // Append the tooltip but keep it hidden initially
 
-        svgContainer.addEventListener('mouseenter', (event) => {
-            tooltip.style.visibility = 'visible';
-            tooltip.style.top = event.pageY + 'px'; // Position tooltip at the mouse position
-            tooltip.style.left = event.pageX + 'px';
+        svgContainer.addEventListener('mouseenter', () => {
+            tooltip.classList.add('visible');
+            // Get the bounding rectangle of the svgContainer
+            const rect = svgContainer.getBoundingClientRect();
+            
+            tooltip.style.top = rect.top + window.scrollY + 'px'; // Add window's scrollY to account for scrolling
+            tooltip.style.left = rect.right + window.scrollX + 10 + 'px'; // Add window's scrollX to account for scrolling
         });
-
+        
         svgContainer.addEventListener('mouseleave', () => {
-            tooltip.style.visibility = 'hidden';
+            tooltip.classList.remove('visible'); // Hide tooltip when mouse leaves
         });
     });
+
+    // Wait for the SVGs to be rendered before showing them
+    setTimeout(() => {
+        container.querySelectorAll('.line-svg').forEach(svg => {
+            svg.style.opacity = 1;
+        });
+    }, 50)
 }
