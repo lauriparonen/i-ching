@@ -4,53 +4,55 @@ document.getElementById('generateHexagram').addEventListener('click', async () =
     
     originalHexagram.style.opacity = 0;
     transformedHexagram.style.opacity = 0;
-
-    // Fetch hexagram data from the server
-    const response = await fetch('/generate-hexagram');
-    const data = await response.json();
-
-    // Before rendering, reserve space for the lines to prevent layout shift
-    // The size of the hexagram is 100x132px
-    const originalLinesDiv = document.getElementById('originalLines');
-    originalLinesDiv.style.height = '132px';
-    originalLinesDiv.style.width = '100px';
-
-    const transformedLinesDiv = document.getElementById('transformedLines');
-    transformedLinesDiv.style.height = '132px';
-    transformedLinesDiv.style.width = '100px';
-
-    renderHexagramLines(data.originalHexagram, originalLinesDiv, data.originalHexagramInfo);
     
-    // Update text information
-    const originalTextDiv = document.getElementById('originalText');
-    originalTextDiv.innerHTML = `
-        <h2>Cast hexagram</h2>
-        <h3>
-            ${data.originalHexagramInfo.kingwen} -
-            ${data.originalHexagramInfo.name.chinese} - 
-            ${data.originalHexagramInfo.name.english}
-        </h3>
-        <p>${data.originalHexagramInfo.judgement.replace(/\n/g, '<br>')}</p>
-        <p>${data.originalHexagramInfo.images.replace(/\n/g, '<br>')}</p>
-    `;
+    setTimeout(async () => {
+        // Fetch hexagram data from the server
+        const response = await fetch('/generate-hexagram');
+        const data = await response.json();
 
-    // Repeat for transformed hexagram
-    renderHexagramLines(data.transformedHexagram, transformedLinesDiv, data.transformedHexagramInfo);
-    
-    const transformedTextDiv = document.getElementById('transformedText');
-    transformedTextDiv.innerHTML = `
-        <h2>Transformed hexagram</h2>
-        <h3>
-            ${data.transformedHexagramInfo.kingwen} -
-            ${data.transformedHexagramInfo.name.chinese} - 
-            ${data.transformedHexagramInfo.name.english}
-        </h3>
-        <p>${data.transformedHexagramInfo.judgement.replace(/\n/g, '<br>')}</p>
-        <p>${data.transformedHexagramInfo.images.replace(/\n/g, '<br>')}</p>
-    `;
+        // Before rendering, reserve space for the lines to prevent layout shift
+        // The size of the hexagram is 100x132px
+        const originalLinesDiv = document.getElementById('originalLines');
+        originalLinesDiv.style.height = '132px';
+        originalLinesDiv.style.width = '100px';
 
-    originalHexagram.style.opacity = 1;
-    transformedHexagram.style.opacity = 1;
+        const transformedLinesDiv = document.getElementById('transformedLines');
+        transformedLinesDiv.style.height = '132px';
+        transformedLinesDiv.style.width = '100px';
+
+        renderHexagramLines(data.originalHexagram, originalLinesDiv, data.originalHexagramInfo);
+        
+        // Update text information
+        const originalTextDiv = document.getElementById('originalText');
+        originalTextDiv.innerHTML = `
+            <h2>Cast hexagram</h2>
+            <h3>
+                ${data.originalHexagramInfo.kingwen} -
+                ${data.originalHexagramInfo.name.chinese} - 
+                ${data.originalHexagramInfo.name.english}
+            </h3>
+            <p>${data.originalHexagramInfo.judgement.replace(/\n/g, '<br>')}</p>
+            <p>${data.originalHexagramInfo.images.replace(/\n/g, '<br>')}</p>
+        `;
+
+        // Repeat for transformed hexagram
+        renderHexagramLines(data.transformedHexagram, transformedLinesDiv, data.transformedHexagramInfo);
+        
+        const transformedTextDiv = document.getElementById('transformedText');
+        transformedTextDiv.innerHTML = `
+            <h2>Transformed hexagram</h2>
+            <h3>
+                ${data.transformedHexagramInfo.kingwen} -
+                ${data.transformedHexagramInfo.name.chinese} - 
+                ${data.transformedHexagramInfo.name.english}
+            </h3>
+            <p>${data.transformedHexagramInfo.judgement.replace(/\n/g, '<br>')}</p>
+            <p>${data.transformedHexagramInfo.images.replace(/\n/g, '<br>')}</p>
+        `;
+
+        originalHexagram.style.opacity = 1;
+        transformedHexagram.style.opacity = 1;
+    }, 500);
 });
 
 
@@ -106,5 +108,5 @@ function renderHexagramLines(lines, container, hexagramInfo) {
         container.querySelectorAll('.line-svg').forEach(svg => {
             svg.style.opacity = 1;
         });
-    }, 50)
+    }, 500)
 }
